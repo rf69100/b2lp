@@ -1,0 +1,43 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Cannot access property \$name on App\\Models\\User\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Http/Resources/CommentaireResource.php
+
+		-
+			message: '#^Generic type Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Commentaire\> in PHPDoc tag @return does not specify all template types of class Illuminate\\Database\\Eloquent\\Relations\\HasMany\: TRelatedModel, TDeclaringModel$#'
+			identifier: generics.lessTypes
+			count: 1
+			path: app/Models/Billet.php
+
+		-
+			message: '#^Method App\\Models\\Billet\:\:commentaires\(\) should return Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Commentaire\> but returns Illuminate\\Database\\Eloquent\\Relations\\HasMany\<App\\Models\\Commentaire, \$this\(App\\Models\\Billet\)\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Billet.php
+
+		-
+			message: '#^Method App\\Models\\Commentaire\:\:user\(\) should return Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<App\\Models\\User, App\\Models\\Commentaire\> but returns Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\<App\\Models\\User, \$this\(App\\Models\\Commentaire\)\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Commentaire.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: database/factories/CommentaireFactory.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/Unit/ExampleTest.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between 1 and 1 will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: tests/Unit/ExampleTest.php

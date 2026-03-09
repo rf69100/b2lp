@@ -22,7 +22,10 @@ use App\Models\User;
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', [UserController::class, 'show']);
     Route::post('/user/logout', function(Request $request) {
-		auth()->user()->tokens()->delete();
+		$user = auth()->user();
+		if ($user) {
+			$user->tokens()->delete();
+		}
 	});
 	Route::get('/billets/{id}', [BilletController::class, "show"])->whereNumber('id');
 	Route::post('/commentaires',[CommentaireController::class,"store"]);

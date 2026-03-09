@@ -1,0 +1,20 @@
+includes:
+  - vendor/larastan/larastan/extension.neon
+  - phpstan-baseline.neon
+
+parameters:
+  level: 8
+  paths:
+    - app
+    - database
+    - routes
+    - tests
+  scanFiles:
+    - artisan
+    - bootstrap/app.php
+  excludePaths:
+    - vendor
+    - storage
+    - bootstrap/cache
+  checkExplicitMixed: false
+  inferPrivatePropertyTypeFromConstructor: true

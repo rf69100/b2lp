@@ -18,11 +18,14 @@ class CommentaireFactory extends Factory
      */
     public function definition(): array
     {
+        $billet = Billet::inRandomOrder()->first();
+        $user = User::inRandomOrder()->first();
+        
         return [
             'COM_DATE' => now(),
             'COM_CONTENU' => fake()->text(200),
-            'billet_id' => Billet::inRandomOrder()->first()->id,
-            'user_id' => User::inRandomOrder()->first()->id,
+            'billet_id' => $billet?->id ?? Billet::factory(),
+            'user_id' => $user?->id ?? User::factory(),
         ];
     }
 }

@@ -15,11 +15,13 @@ class BilletResource extends JsonResource
     public function toArray(Request $request): array
     {
         //return parent::toArray($request);
+        /** @var \App\Models\Billet $billet */
+        $billet = $this->resource;
         return [
-            'Date' => $this->BIL_DATE,
-            'Titre' => $this->BIL_TITRE,
-            'Contenu' => $this->BIL_CONTENU,
-            'Commentaires' => CommentaireResource::collection($this->commentaires),
+            'Date' => $billet->BIL_DATE,
+            'Titre' => $billet->BIL_TITRE,
+            'Contenu' => $billet->BIL_CONTENU,
+            'Commentaires' => CommentaireResource::collection($billet->commentaires),
         ];
     }
 }

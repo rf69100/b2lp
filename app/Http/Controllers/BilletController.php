@@ -14,7 +14,7 @@ class BilletController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): \Illuminate\Http\JsonResponse
     {
         try {
             //Le résultat de la requête est retourné directement en JSON
@@ -32,7 +32,7 @@ class BilletController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -40,7 +40,7 @@ class BilletController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBilletRequest $request)
+    public function store(Request $request): void
     {
         //
     }
@@ -48,7 +48,7 @@ class BilletController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(string $id): \Illuminate\Http\JsonResponse
     {
         //
         try {
@@ -66,7 +66,7 @@ class BilletController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Billet $billet)
+    public function edit(Billet $billet): void
     {
         //
     }
@@ -74,7 +74,7 @@ class BilletController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBilletRequest $request, Billet $billet)
+    public function update(Request $request, Billet $billet): void
     {
         //
     }
@@ -82,7 +82,7 @@ class BilletController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Billet $billet)
+    public function destroy(Billet $billet): void
     {
         //
     }

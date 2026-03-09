@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCommentaireRequest;
 use App\Http\Requests\UpdateCommentaireRequest;
 use App\Models\Commentaire;
+use Illuminate\Support\Facades\Log;
 
 class CommentaireController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): void
     {
         //
     }
@@ -19,7 +20,7 @@ class CommentaireController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -27,7 +28,7 @@ class CommentaireController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCommentaireRequest $request)
+    public function store(StoreCommentaireRequest $request): \Illuminate\Http\JsonResponse
     {
         //
         try {
@@ -45,7 +46,7 @@ class CommentaireController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Commentaire $commentaire)
+    public function show(Commentaire $commentaire): void
     {
         //
     }
@@ -53,7 +54,7 @@ class CommentaireController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Commentaire $commentaire)
+    public function edit(Commentaire $commentaire): void
     {
         //
     }
@@ -61,7 +62,7 @@ class CommentaireController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCommentaireRequest $request, Commentaire $commentaire)
+    public function update(UpdateCommentaireRequest $request, Commentaire $commentaire): void
     {
         //
     }
@@ -69,7 +70,7 @@ class CommentaireController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Commentaire $commentaire)
+    public function destroy(Commentaire $commentaire): void
     {
         //
     }

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\URL;
 
 class ForceSubpathUrl
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         $uri = $request->server->get('REQUEST_URI', '/');
         $stripped = preg_replace('#^/b2lp#', '', $uri) ?: '/';

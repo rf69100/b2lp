@@ -15,10 +15,12 @@ class CommentaireResource extends JsonResource
     public function toArray(Request $request): array
     {
         //return parent::toArray($request);
+        /** @var \App\Models\Commentaire $commentaire */
+        $commentaire = $this->resource;
         return [
-            'Date' => $this->COM_DATE,
-            'Auteur' => $this->user->name,
-            'Contenu' => $this->COM_CONTENU,
+            'Date' => $commentaire->COM_DATE,
+            'Auteur' => $commentaire->user->name,
+            'Contenu' => $commentaire->COM_CONTENU,
         ];
     }
 }

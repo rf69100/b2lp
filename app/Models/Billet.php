@@ -23,7 +23,10 @@ class Billet extends Model
 
     //Un billet a plusieurs commentaires.
     //Cette fonction sera utile pour afficher les commentaires d'un billet sélectionné.
-    public function commentaires()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Commentaire>
+     */
+    public function commentaires(): \Illuminate\Database\Eloquent\Relations\HasMany
 	{
 		return $this->hasMany(Commentaire::class);
 	}
