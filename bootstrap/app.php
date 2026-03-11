@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Désactive les cookies de session sur les routes /api/* (API stateless token-based)
+        $middleware->statefulApi();
+
         $middleware->prepend(\App\Http\Middleware\ForceSubpathUrl::class);
         $middleware->append(\App\Http\Middleware\SecurityHeadersMiddleware::class);
     })
