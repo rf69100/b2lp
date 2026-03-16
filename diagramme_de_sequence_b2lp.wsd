@@ -1,0 +1,72 @@
+
+@startuml Diagramme de séquence - B2LP
+
+actor Utilisateur
+participant "Application React" as React
+participant "API Laravel" as Laravel
+database "Base de données" as BDD
+
+== Inscription ==
+
+Utilisateur -> React : https://ryanfonseca.fr/b2lp/api/register
+React -> Laravel : POST /api/register
+Laravel -> BDD : INSERT user
+BDD --> Laravel : success
+Laravel --> React : 201 Created (token)
+React --> Utilisateur : Renvoie le token opaque
+
+== Connexion ==
+
+Utilisateur -> React : https://ryanfonseca.fr/b2lp/api/login
+React -> Laravel : POST /api/login
+Laravel -> BDD : SELECT user
+BDD --> Laravel : user data
+Laravel --> React : 200 OK (token)
+React --> Utilisateur : Renvoie le token opaque
+
+== Déconnexion ==
+
+Utilisateur -> React : https://ryanfonseca.fr/b2lp/api/logout
+React -> Laravel : POST /api/logout
+Laravel -> BDD : UPDATE user
+BDD --> Laravel : success
+Laravel --> React : 200 OK
+React --> Utilisateur : Renvoie un message de confirmation
+
+== Vérification de la connexion d'un utilisateur ==
+
+Utilisateur -> React : https://ryanfonseca.fr/b2lp/api/user
+React -> Laravel : GET /api/user
+Laravel -> BDD : SELECT user
+BDD --> Laravel : user data
+Laravel --> React : 200 OK (user data)
+React --> Utilisateur : Renvoie les données de l'utilisateur
+
+== Listing de tous les billets ==
+
+Utilisateur -> React : https://ryanfonseca.fr/b2lp/api/tickets
+React -> Laravel : GET /api/tickets
+Laravel -> BDD : SELECT * FROM tickets
+BDD --> Laravel : tickets data
+Laravel --> React : 200 OK (tickets data)
+React --> Utilisateur : Renvoie la liste des billets
+
+== Affiche le détail d'un billet d'id {id} ==
+
+Utilisateur -> React : https://ryanfonseca.fr/b2lp/api/tickets/{id}
+React -> Laravel : GET /api/tickets/{id}
+Laravel -> BDD : SELECT * FROM tickets WHERE id = ?
+BDD --> Laravel : ticket data
+Laravel --> React : 200 OK (ticket data)
+React --> Utilisateur : Renvoie le détail du billet
+
+== Insertion d'un commentaire dans la base de données ==
+
+Utilisateur -> React : https://ryanfonseca.fr/b2lp/api/commentaires
+React -> Laravel : POST /api/commentaires
+Laravel -> BDD : INSERT commentaire
+BDD --> Laravel : success
+Laravel --> React : 201 Created
+React --> Utilisateur : Renvoie un message de confirmation
+
+@enduml
