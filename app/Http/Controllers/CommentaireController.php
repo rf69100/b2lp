@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCommentaireRequest;
 use App\Http\Requests\UpdateCommentaireRequest;
+use App\Http\Resources\CommentaireResource;
 use App\Models\Commentaire;
 use Illuminate\Support\Facades\Log;
 
@@ -32,13 +33,16 @@ class CommentaireController extends Controller
     {
         //
         try {
-            $commentaire = Commentaire::create($request->validated());
-            return response()->json($commentaire,201);
+            $commentaire = Commentaire::create(array_merge($request->validated(), [
+                'COM_DATE' => now()->toDateString(),
+            ]));
+            $commentaire->load('user');
+            return (new CommentaireResource($commentaire))->response()->setStatusCode(201);
         }
         catch(\Illuminate\Database\QueryException $e){
-            Log::channel('projectError')->error('Erreur accès base de données');
+            Log::channel('projectLog')->error('Erreur accès base de données');
             return response()->json([
-                'message' => 'Ressource indiponible.'
+                'message' => 'Ressource indisponible.'
             ],500);
         }
     }

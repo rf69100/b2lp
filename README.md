@@ -118,15 +118,15 @@ _Pas d'authentification requise_.
 
 | **Nom** | **Méthode** | **Url** | **Response Code** |
 | ------- | ----------- | ------- | ----------------- | 
-|  | `POST` | _api/commentaires_ | `201`, `500` |
+| StoreCommentaire | `POST` | _api/commentaires_ | `201`, `422`, `500` |
 
-**Insertion d'un commentaire dans la base de données**.
+**Insertion d'un commentaire dans la base de données**. Authentification requise.
 
-- Data Received
-    - `auth_token` (cookie) : Bearer Token pour l'authentification.
-    - `date` : date de création,
-    - `contenu` : message de l'auteur,
-    - `billet_id` : id du billet auquel correspond le commentaire,
-    - `user_id` : id de l'auteur du commentaire.
+- Data Received (JSON body)
+    - `COM_CONTENU` (string, max 200) : message de l'auteur,
+    - `billet_id` (integer) : id du billet auquel correspond le commentaire,
+    - `user_id` (integer) : id de l'auteur — doit correspondre à l'utilisateur authentifié.
 - Data Send
-    - `success` : code 201.
+    - `Date` : date de création (définie côté serveur),
+    - `Auteur` : nom de l'auteur,
+    - `Contenu` : message.

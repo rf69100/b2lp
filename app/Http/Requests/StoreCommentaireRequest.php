@@ -27,9 +27,8 @@ class StoreCommentaireRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'COM_DATE' => ['required','date'],
             'COM_CONTENU'=> ['required','string','max:200'],
-            'billet_id' => ['required','integer'],
+            'billet_id' => ['required','integer','exists:billets,id'],
             'user_id' => [
                 'required',
                 'integer',

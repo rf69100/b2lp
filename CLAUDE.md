@@ -50,7 +50,7 @@ Sanctum token-based auth. Tokens must be sent as a Bearer token in the `Authoriz
 | GET | `/api/user` | Yes | Returns authenticated user info |
 | GET | `/api/billets` | No | List all posts (no comments) |
 | GET | `/api/billets/{id}` | Yes | Single post with embedded comments and author names |
-| POST | `/api/commentaires` | Yes | Create a comment |
+| POST | `/api/commentaires` | Yes | Create a comment — body: `COM_CONTENU`, `billet_id`, `user_id`; returns `CommentaireResource` (Date, Auteur, Contenu) |
 
 ### Middleware Stack (`bootstrap/app.php`)
 - `ForceSubpathUrl` — prepended, handles subpath URL rewriting
@@ -69,9 +69,12 @@ Two distinct resources for `Billet`:
 - `BilletResource` — used in detail (`GET /billets/{id}`): returns Date, Titre, Contenu + `Commentaires` via `CommentaireResource::collection()`, eager-loaded with `commentaires.user`
 
 ### Form Requests
-`StoreCommentaireRequest` has two notable behaviors:
+`StoreCommentaireRequest` has three notable behaviors:
+- Validates that `billet_id` exists in the `billets` table
 - Validates that `user_id` matches `Auth::id()` (prevents posting comments as another user)
 - Overrides `failedValidation()` to always return JSON (`{"success": false, "message": "Validation errors", "data": {...}}`) instead of Laravel's default redirect
+
+`COM_DATE` is **not** accepted from the client — it is set server-side in `CommentaireController::store()` via `now()->toDateString()`.
 
 `StoreBilletRequest` is an unimplemented stub (`authorize()` returns `false`). Most CRUD methods beyond `index`, `show`, and `store` are also stubs.
 
