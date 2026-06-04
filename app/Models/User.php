@@ -13,6 +13,11 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens,HasFactory, Notifiable;
 
+    // Les deux rôles possibles d'un utilisateur.
+    public const ROLE_ADMIN = 'admin';   // Administrateur du blog : peut créer/modifier/supprimer des billets.
+
+    public const ROLE_CLIENT = 'client'; // Client : peut seulement consulter les billets et les commenter.
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -45,5 +51,14 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Indique si l'utilisateur est l'administrateur du blog.
+     * Utilisé par BilletPolicy pour autoriser les opérations CRUD sur les billets.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
     }
 }

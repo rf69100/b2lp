@@ -14,13 +14,16 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        //return parent::toArray($request);
+        // return parent::toArray($request);
         /** @var \App\Models\User $user */
         $user = $this->resource;
+
         return [
             'id' => $user->getKey(),
             'nom' => $user->name,
             'email' => $user->email,
+            // Rôle exposé pour que le front puisse afficher/masquer les actions CRUD réservées à l'admin.
+            'role' => $user->role,
         ];
     }
 }
