@@ -2,27 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\{BilletsResource,BilletResource};
+use App\Http\Resources\BilletResource;
+use App\Http\Resources\BilletsResource;
+use App\Models\Billet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
-use App\Models\Billet;
 
 class BilletController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Illuminate\Http\JsonResponse
+    public function index(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
-            //Le résultat de la requête est retourné directement en JSON
-            //return Billet::all();
-            return response()->json(BilletsResource::collection(Billet::all()));
-        }
-        catch(\Illuminate\Database\QueryException $e) {
+            // Les catégories sont chargées avec les billets (eager loading) pour éviter les requêtes N+1.
+            $query = Billet::with('categories');
+
+            // Filtre optionnel : permet de classer les billets par catégorie.
+            // Ex : GET /api/billets?categorie_id=3
+            if ($request->filled('categorie_id')) {
+                $query->whereHas('categories', function ($q) use ($request) {
+                    $q->where('categories.id', $request->query('categorie_id'));
+                });
+            }
+
+            return response()->json(BilletsResource::collection($query->get()));
+        } catch (\Illuminate\Database\QueryException $e) {
             Log::channel('projectLog')->error('Erreur accès base de données');
+
             return response()->json([
                 'message' => 'Ressource indisponible.'], 500);
         }
@@ -52,16 +61,16 @@ class BilletController extends Controller
     {
         //
         try {
-            $billetResource = new BilletResource(Billet::with('commentaires','commentaires.user')->findOrFail($id));
+            $billetResource = new BilletResource(Billet::with('categories', 'commentaires', 'commentaires.user')->findOrFail($id));
+
             return response()->json($billetResource);
-        }
-        catch(\Illuminate\Database\QueryException $e) {
+        } catch (\Illuminate\Database\QueryException $e) {
             Log::error('Erreur accès base de données');
+
             return response()->json([
                 'message' => 'Ressource indisponible.'], 500);
         }
     }
-
 
     /**
      * Show the form for editing the specified resource.
